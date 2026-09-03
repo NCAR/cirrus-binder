@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: hub-to-apiserver
+spec:
+  endpointSelector:
+    matchLabels:
+      app: jupyterhub
+      component: hub
+      release: binder
+  egress:
+    - toEntities:
+        - kube-apiserver

@@ -1,0 +1,236 @@
+replicas: 2
+
+deployment:
+  labels:
+    hub.jupyter.org/network-access-hub: "true"
+
+resources:
+  requests:
+    cpu: 0.2
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
+service:
+  type: ClusterIP
+  annotations:
+    prometheus.io/scrape: "true"
+
+ingress:
+  enabled: true
+  ingressClassName: traefik-external
+  hosts:
+    - binder.k8s.ucar.edu
+  pathType: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: incommon
+  tls:
+    - hosts:
+        - binder.k8s.ucar.edu
+      secretName: binder-tls
+
+registry:
+  url: https://hub.k8s.ucar.edu
+
+extraPodSpec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+extraVolumes:
+  - name: harbor-push-secret
+    secret:
+      secretName: binder-harbor-push
+      defaultMode: 0444
+  - name: branding-templates
+    configMap:
+      name: binder-branding
+      defaultMode: 0444
+      items:
+        - key: page.html
+          path: page.html
+        - key: banner.html
+          path: banner.html
+  - name: branding-static
+    configMap:
+      name: binder-branding
+      defaultMode: 0444
+      items:
+        - key: theme.css
+          path: theme.css
+        - key: logo-pair.png
+          path: logo-pair.png
+        - key: favicon.ico
+          path: favicon.ico
+        - key: NCAR-Waves.png
+          path: NCAR-Waves.png
+        - key: NSF_Official_logo.png
+          path: NSF_Official_logo.png
+        - key: CIRRUS_Logo_NCARBlue.png
+          path: CIRRUS_Logo_NCARBlue.png
+extraVolumeMounts:
+  - name: harbor-push-secret
+    mountPath: /etc/binderhub/docker
+    readOnly: true
+  - name: branding-templates
+    mountPath: /etc/binderhub/templates
+    readOnly: true
+  - name: branding-static
+    mountPath: /etc/binderhub/static
+    readOnly: true
+
+config:
+  BinderHub:
+    use_registry: true
+    image_prefix: hub.k8s.ucar.edu/cirrus-binder/binder-
+    extra_static_path: /etc/binderhub/static
+
+    hub_url: https://binder.k8s.ucar.edu/jupyter/
+    hub_url_local: http://hub:8081/jupyter/
+
+    auth_enabled: false
+
+    per_repo_quota: 20
+    per_repo_quota_higher: 40
+    pod_quota: 60
+    concurrent_build_limit: 4
+    build_max_age: 3600
+    build_cleanup_interval: 60
+
+    block_build_user_agents: "(bot|crawler|spider|Googlebot|bingbot)"
+
+    about_message: |
+      <p>Run by <a href="https://arc.ucar.edu">NCAR/CISL</a> on the CIRRUS
+      Kubernetes cluster. This is a free, unauthenticated service offered on
+      a best-effort basis with no availability guarantee.</p>
+
+  DockerRegistry:
+    url: https://hub.k8s.ucar.edu
+    token_url: https://hub.k8s.ucar.edu/service/token?service=harbor-registry
+    docker_config_path: /etc/binderhub/docker/config.json
+
+  BuildExecutor:
+    push_secret: binder-harbor-push
+
+  KubernetesBuildExecutor:
+    build_image: quay.io/jupyterhub/repo2docker:2026.4.0
+    sticky_builds: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: "2"
+        memory: 4Gi
+
+imageBuilderType: dind
+
+dind:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 1Gi
+    limits:
+      cpu: "8"
+      memory: 8Gi
+  storageDriver: overlay2
+  hostLibDir: /var/lib/dind
+  hostSocketDir: /var/run/dind
+  hostSocketName: docker.sock
+
+imageCleaner:
+  enabled: true
+  cordon: false
+  delay: 5
+  imageGCThresholdType: relative
+  imageGCThresholdHigh: 80
+  imageGCThresholdLow: 60
+
+jupyterhub:
+  hub:
+    baseUrl: /jupyter/
+    config:
+      JupyterHub:
+        authenticator_class: "null"
+      BinderSpawner:
+        auth_enabled: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+    db:
+      pvc:
+        storageClassName: ceph-kubepv
+
+  proxy:
+    service:
+      type: ClusterIP
+    chp:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 1
+          memory: 512Mi
+
+  singleuser:
+    cpu:
+      limit: 1
+      guarantee: 0.1
+    memory:
+      limit: 2G
+      guarantee: 64M
+    storage:
+      type: none
+    cloudMetadata:
+      blockWithIptables: false
+    networkPolicy:
+      enabled: true
+      egressAllowRules:
+        cloudMetadataServer: false
+        dnsPortsCloudMetadataServer: false
+        dnsPortsKubeSystemNamespace: true
+        dnsPortsPrivateIPs: false
+        nonPrivateIPs: true
+        privateIPs: false
+
+  cull:
+    enabled: true
+    users: true
+    timeout: 3600
+    every: 600
+    maxAge: 21600
+
+  prePuller:
+    hook:
+      enabled: false
+    continuous:
+      enabled: false
+
+  scheduling:
+    userScheduler:
+      enabled: false
+
+  ingress:
+    enabled: true
+    ingressClassName: traefik-external
+    hosts:
+      - binder.k8s.ucar.edu
+    pathType: Prefix
+    tls:
+      - hosts:
+          - binder.k8s.ucar.edu
+        secretName: binder-tls
+
+extraConfig:
+  01-build-token: |
+    with open("/etc/binderhub/docker/build_token_secret") as f:
+        c.BinderHub.build_token_secret = f.read().strip()

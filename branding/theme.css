@@ -1,0 +1,280 @@
+:root {
+  --bs-primary: #0057c2;
+  --bs-primary-rgb: 0, 87, 194;
+  --bs-link-color: #0057c2;
+  --bs-link-color-rgb: 0, 87, 194;
+  --bs-link-hover-color: #00357a;
+  --bs-link-hover-color-rgb: 0, 53, 122;
+  --bs-body-font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: #f1f0ee;
+  /* url() resolves against this stylesheet, not the page */
+  background-image: url('NCAR-Waves.png');
+  background-position: 150% top;
+  background-repeat: repeat-y;
+  background-size: 53%;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+}
+
+/* the paired logo is 7.59:1; keep it from overflowing narrow screens */
+div.text-center.m-4 > img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn-primary {
+  --bs-btn-bg: #0057c2;
+  --bs-btn-border-color: #0057c2;
+  --bs-btn-hover-bg: #00357a;
+  --bs-btn-hover-border-color: #00357a;
+}
+
+:root {
+  --ncar-dark: #011837;
+  --ncar-blue-dark: #00357a;
+  --ncar-blue-light: #42c0ff;
+  --transition: all 0.3s ease;
+}
+
+.org-footer {
+  background-color: var(--ncar-dark);
+  color: #ffffff;
+}
+
+.org-footer h3 {
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  color: #fdd509;
+}
+
+.org-footer h4 {
+  color: #fdd509;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+footer .nav-link {
+  display: inline-block;
+  padding-left: 0;
+}
+
+.org-footer .nav-link {
+  color: var(--ncar-blue-light);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 0.875rem;
+}
+
+.org-footer .nav-link:hover {
+  color: #86d3fc;
+}
+
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+}
+
+.social-icons a {
+  color: #ffffff;
+  transition: var(--transition);
+}
+
+.social-icons a:hover {
+  color: #86d3fc;
+}
+
+.legal-footer {
+  background-color: var(--ncar-blue-dark);
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+
+.legal-footer .nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  align-items: flex-start;
+}
+
+.legal-footer .nav-item {
+  padding-left: 0;
+}
+
+.legal-footer .nav-link {
+  color: #f6f7f6;
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 0.875rem;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  padding-left: 0;
+  padding-top: 0;
+  display: inline-block;
+  border: none;
+}
+
+.legal-footer .nav-link:hover {
+  color: var(--ncar-blue-light);
+}
+
+.legal-footer a {
+  padding-top: 0;
+}
+
+.legal-footer .copyright {
+  color: #fdd509;
+  float: left;
+  line-height: unset;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  padding-left: 0;
+  margin-bottom: 0.375rem;
+}
+
+.legal-footer .text-gray-light {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.nsf-footer {
+  background-color: #556379;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.nsf-footer p {
+  color: #f6f7f6;
+}
+
+.nsf-footer img {
+  max-width: 80px;
+  height: auto;
+}
+
+.nsf-footer a {
+  color: #c0f0f5;
+  text-decoration: underline;
+  transition: var(--transition);
+}
+
+.nsf-footer a:hover {
+  color: #86e8f5;
+}
+
+.py-2 {
+  padding-top: 1.125rem !important;
+  padding-bottom: 1.125rem !important;
+}
+
+.py-3 {
+  padding-top: 1.875rem !important;
+  padding-bottom: 1.875rem !important;
+}
+
+.pt-2 {
+  padding-top: 1.125rem !important;
+}
+
+.pb-3 {
+  padding-bottom: 1.875rem !important;
+}
+
+@media (min-width: 768px) {
+  .py-md-3 {
+    padding-top: 1.875rem !important;
+    padding-bottom: 1.875rem !important;
+  }
+
+  .pb-md-2 {
+    padding-bottom: 1.125rem !important;
+  }
+
+  .pt-md-0 {
+    padding-top: 0 !important;
+  }
+
+  .pb-md-0 {
+    padding-bottom: 0 !important;
+  }
+}
+
+.runs-on-cirrus {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 1.5rem;
+  padding: 1.25rem 2rem;
+  border-radius: 16px;
+  border: 1px solid var(--ncar-blue-light);
+  background: linear-gradient(135deg, #0057c2 50%, #00357a 80%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.runs-on-cirrus::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('NCAR-Waves.png') no-repeat right center;
+  background-size: contain;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.runs-on-cirrus > * {
+  position: relative;
+  z-index: 1;
+}
+
+.runs-on-cirrus img {
+  height: 2.75rem;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.runs-on-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #ffffff;
+}
+
+.runs-on-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.runs-on-links a {
+  color: var(--ncar-blue-light);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.runs-on-links a:hover {
+  color: #86d3fc;
+  text-decoration: underline;
+}
+
+.runs-on-links span {
+  color: rgba(255, 255, 255, 0.6);
+}

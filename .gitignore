@@ -1,0 +1,7 @@
+# Helm pulls the binderhub dependency here; Chart.lock is committed instead.
+chart/charts/
+*.tgz
+
+# Never commit rendered secrets or local overrides.
+*secret*.local.yaml
+values.local.yaml
