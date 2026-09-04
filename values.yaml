@@ -109,6 +109,18 @@ config:
       Kubernetes cluster. This is a free, unauthenticated service offered on
       a best-effort basis with no availability guarantee.</p>
 
+    extra_header_html:
+      01-google-analytics: |
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LNEXR0S518"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-LNEXR0S518');
+        </script>
+
   DockerRegistry:
     url: https://hub.k8s.ucar.edu
     token_url: https://hub.k8s.ucar.edu/service/token?service=harbor-registry
