@@ -88,6 +88,7 @@ config:
     use_registry: true
     image_prefix: hub.k8s.ucar.edu/cirrus-binder/binder-
     extra_static_path: /etc/binderhub/static
+    template_path: /etc/binderhub/templates
 
     hub_url: https://binder.k8s.ucar.edu/jupyter/
     hub_url_local: http://hub:8081/jupyter/
