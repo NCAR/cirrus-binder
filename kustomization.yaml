@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - manifests/externalsecret-harbor.yaml
   - manifests/ciliumnetworkpolicy-hub-apiserver.yaml
+  - manifests/servicemonitor.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
