@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: binderhub
+  namespace: cirrus-binder
+spec:
+  selector:
+    matchLabels:
+      app: binder
+      component: binder
+  endpoints:
+    - targetPort: 8585
+      path: /metrics
+      interval: 30s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: binderhub-hub
+  namespace: cirrus-binder
+spec:
+  selector:
+    matchLabels:
+      component: hub
+      release: binder
+  endpoints:
+    - port: hub
+      path: /jupyter/hub/metrics
+      interval: 30s

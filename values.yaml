@@ -14,6 +14,9 @@ resources:
 
 service:
   type: ClusterIP
+  labels:
+    app: binder
+    component: binder
   annotations:
     prometheus.io/scrape: "true"
 
@@ -169,6 +172,7 @@ jupyterhub:
     config:
       JupyterHub:
         authenticator_class: "null"
+        authenticate_prometheus: false
       BinderSpawner:
         auth_enabled: false
     resources:
