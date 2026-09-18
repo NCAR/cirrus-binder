@@ -98,8 +98,8 @@ config:
 
     auth_enabled: false
 
-    per_repo_quota: 20
-    per_repo_quota_higher: 40
+    per_repo_quota: 60
+    per_repo_quota_higher: 60
     pod_quota: 60
     concurrent_build_limit: 4
     build_max_age: 3600
