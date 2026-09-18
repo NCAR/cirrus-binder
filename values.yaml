@@ -175,6 +175,15 @@ jupyterhub:
         authenticate_prometheus: false
       BinderSpawner:
         auth_enabled: false
+    networkPolicy:
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: prometheus
+          ports:
+            - port: 8081
+              protocol: TCP
     resources:
       requests:
         cpu: 100m
